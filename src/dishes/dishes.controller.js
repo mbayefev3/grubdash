@@ -19,7 +19,6 @@ const list = (req, res) => {
 
 
 const dishIdExists = (req, res, next) => {
-
   const { data: { id } = {} } = req.body
   const dishId = req.params.dishId
   const foundDish = dishes.find(({ id }) => id === dishId)
@@ -34,8 +33,6 @@ const dishIdExists = (req, res, next) => {
       message: `Dish id does not match route id. Dish: ${id}, Route: ${dishId}`
     })
   }
-
-
   if (foundDish) {
 
     res.locals.dish = foundDish
@@ -73,9 +70,7 @@ const descriptionExists = (req, res, next) => {
 // price property is not an integer	Dish must have a price that is an integer greater than 0
 const priceExists = (req, res, next) => {
   const { data: { price } = {} } = req.body
-
   if (price === undefined) {
-
     next({
       status: 400,
       message: "Dish must include a price"
@@ -111,7 +106,6 @@ const imageUrlExists = (req, res, next) => {
 
 
 const create = (req, res) => {
-
   res.status(201).json({
     data: {
       id: nextId(),

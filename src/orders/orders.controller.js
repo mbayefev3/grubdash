@@ -42,14 +42,12 @@ const validOrderStatus = (req, res, next) => {
 const orderIdExists = (req, res, next) => {
   const { data: { id, status } = {} } = req.body
   const { orderId } = req.params
-
   const foundOrder = orders.find(({ id }) => id === orderId)
 
   if (!foundOrder) {
-
     next({ status: 404, message: `Path not found: ${req.originalUrl}` });
-
   }
+
   if (id && orderId && (id !== orderId)) {
     return next({
       status: 400,
@@ -58,15 +56,14 @@ const orderIdExists = (req, res, next) => {
   }
 
 
-
-
-
-
   if (foundOrder) {
     res.locals.order = foundOrder
     next()
   }
 }
+
+
+
 const deliverToExists = (req, res, next) => {
 
   const { data: { deliverTo } = {} } = req.body
@@ -123,7 +120,6 @@ const dishesExists = (req, res, next) => {
 const dishQuantityExists = (req, res, next) => {
 
   const { data: { dishes } = {} } = req.body
-
   for (let i = 0; i < dishes.length; i++) {
     const { quantity, id: index } = dishes[i]
     if (quantity === undefined || !Number.isInteger(quantity) || quantity <= 0) {
@@ -135,9 +131,7 @@ const dishQuantityExists = (req, res, next) => {
     }
   }
 
-
   next()
-
 
 }
 
@@ -163,9 +157,6 @@ const destroy = (req, res, next) => {
     })
   }
 
-
-
-
 }
 
 
@@ -173,14 +164,12 @@ const destroy = (req, res, next) => {
 const create = (req, res) => {
 
   const { data = {} } = req.body
-
   res.status(201).json({
     data: {
       id: nextId(),
       ...req.body.data
     }
   })
-
   orders.push({
     id: nextId(),
     ...req.body.data
@@ -200,9 +189,7 @@ const read = (req, res) => {
 
 
 const update = (req, res) => {
-
   const { data: { deliverTo, mobileNumber, status, dishes } = {} } = req.body
-
   res.status(200).json({
     data: {
       ...res.locals.order,
