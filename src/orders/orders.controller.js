@@ -9,7 +9,7 @@ const nextId = require("../utils/nextId");
 
 
 
-const validOrderStatus = (req, res, next) => {
+function validOrderStatus(req, res, next) {
 
   const { data: { id, status } = {} } = req.body
   const { orderId } = req.params
@@ -39,7 +39,7 @@ const validOrderStatus = (req, res, next) => {
 
 }
 
-const orderIdExists = (req, res, next) => {
+function orderIdExists(req, res, next) {
   const { data: { id, status } = {} } = req.body
   const { orderId } = req.params
   const foundOrder = orders.find(({ id }) => id === orderId)
@@ -64,7 +64,7 @@ const orderIdExists = (req, res, next) => {
 
 
 
-const deliverToExists = (req, res, next) => {
+function deliverToExists(req, res, next) {
 
   const { data: { deliverTo } = {} } = req.body
   if (!deliverTo) {
@@ -77,7 +77,7 @@ const deliverToExists = (req, res, next) => {
   }
 }
 
-const mobileNumberExists = (req, res, next) => {
+function mobileNumberExists(req, res, next) {
   const { data: { mobileNumber } = {} } = req.body
 
   if (!mobileNumber) {
@@ -90,7 +90,7 @@ const mobileNumberExists = (req, res, next) => {
   }
 }
 
-const dishesExists = (req, res, next) => {
+function dishesExists(req, res, next) {
 
   const { data: { dishes } = {} } = req.body
   if (dishes === undefined) {
@@ -117,7 +117,7 @@ const dishesExists = (req, res, next) => {
 
 
 
-const dishQuantityExists = (req, res, next) => {
+function dishQuantityExists(req, res, next) {
 
   const { data: { dishes } = {} } = req.body
   for (let i = 0; i < dishes.length; i++) {
@@ -138,7 +138,7 @@ const dishQuantityExists = (req, res, next) => {
 
 // status property of the order !== "pending"	An order cannot be deleted unless it is pending. Returns a 400 status code
 
-const destroy = (req, res, next) => {
+function destroy(req, res, next) {
 
   const { status, id } = res.locals.order
   if (status === 'pending') {
@@ -161,7 +161,7 @@ const destroy = (req, res, next) => {
 
 
 
-const create = (req, res) => {
+function create(req, res) {
 
   const { data = {} } = req.body
   res.status(201).json({
@@ -178,7 +178,7 @@ const create = (req, res) => {
 }
 
 
-const read = (req, res) => {
+function read(req, res) {
   res.status(200).json({
     data: {
       ...res.locals.order
@@ -188,7 +188,7 @@ const read = (req, res) => {
 }
 
 
-const update = (req, res) => {
+function update(req, res) {
   const { data: { deliverTo, mobileNumber, status, dishes } = {} } = req.body
   res.status(200).json({
     data: {
@@ -199,7 +199,7 @@ const update = (req, res) => {
 }
 
 
-const list = (req, res) => {
+function list(req, res) {
   res.json({
     data: orders
   })

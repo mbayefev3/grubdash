@@ -6,7 +6,7 @@ const dishes = require(path.resolve("src/data/dishes-data"));
 // Use this function to assign ID's when necessary
 const nextId = require("../utils/nextId");
 
-const list = (req, res) => {
+function list(req, res) {
   //   this will list all available dishes
   res.status(200).json({
     data: dishes
@@ -18,7 +18,7 @@ const list = (req, res) => {
 
 
 
-const dishIdExists = (req, res, next) => {
+function dishIdExists(req, res, next) {
   const { data: { id } = {} } = req.body
   const dishId = req.params.dishId
   const foundDish = dishes.find(({ id }) => id === dishId)
@@ -42,7 +42,7 @@ const dishIdExists = (req, res, next) => {
 
 }
 
-const nameExists = (req, res, next) => {
+function nameExists(req, res, next) {
   const { data: { name } = {} } = req.body
   if (!name) {
     next({
@@ -54,7 +54,7 @@ const nameExists = (req, res, next) => {
   }
 }
 
-const descriptionExists = (req, res, next) => {
+function descriptionExists(req, res, next) {
   const { data: { description } = {} } = req.body
   if (!description) {
     next({
@@ -68,7 +68,7 @@ const descriptionExists = (req, res, next) => {
 
 
 // price property is not an integer	Dish must have a price that is an integer greater than 0
-const priceExists = (req, res, next) => {
+function priceExists(req, res, next) {
   const { data: { price } = {} } = req.body
   if (price === undefined) {
     next({
@@ -92,7 +92,7 @@ const priceExists = (req, res, next) => {
   }
 }
 
-const imageUrlExists = (req, res, next) => {
+function imageUrlExists(req, res, next) {
   const { data: { image_url } = {} } = req.body
   if (!image_url) {
     next({
@@ -105,7 +105,7 @@ const imageUrlExists = (req, res, next) => {
 }
 
 
-const create = (req, res) => {
+function create(req, res) {
   res.status(201).json({
     data: {
       id: nextId(),
@@ -121,7 +121,7 @@ const create = (req, res) => {
 }
 
 
-const read = (req, res) => {
+function read(req, res) {
   const foundDish = res.locals.dish
   res.status(200).json({
     data: foundDish
@@ -132,18 +132,13 @@ const read = (req, res) => {
 // :dishId does not exist	Dish does not exist: ${dishId}.
 // id in the body does not match :dishId in the route	Dish id does not match route id. Dish: ${id}, Route: ${dishId}
 
-const update = (req, res) => {
+function update(req, res) {
   const { dishId } = req.params
   const { data: { id, description, price, image_url, name } = {} } = req.body
-
-
-
   //   All update handlers guarantee that the id property of the stored data cannot be overwritten.
   const updatedDish = {
     ...res.locals.dish,
     description, price, image_url, name
-
-
   }
 
   res.status(200).json({
